@@ -346,8 +346,8 @@ class GeneratePFD{
         this.ctx.restore();
 
         // Static Horizontal Lines --> Aircraft
-        this.ctx.fillStyle = "#000000";
-        this.ctx.strokeStyle = "#000000";
+        this.ctx.fillStyle = "#FFFF00";
+        this.ctx.strokeStyle = "#FFFF00";
         this.ctx.lineWidth = 3;
             // Center Dot 
         this.ctx.beginPath();
@@ -608,20 +608,13 @@ class GeneratePFD{
         this.ctx.fillText(`Lat: ${toLatitude(lat)}`, 0, 25);
         this.ctx.fillText(`Lon: ${toLongitude(lon)}`, 350, 25);
 
-        // Parameters box
-        this.ctx.lineWidth = 1;
-        this.ctx.beginPath();
-        this.ctx.strokeRect(25, 70, 120, 70);
-        this.ctx.closePath();
-
-        this.ctx.stroke();
-
-            // Values 
+        // Mach number, alpha and pilot-g
         this.ctx.textAlign = "start";
+        this.ctx.font = "18px Ariel";
 
-        this.ctx.fillText(`MACH: ${mach}`, 30, 90);
-        this.ctx.fillText(`ALPHA: ${aoa}`, 30, 110);
-        this.ctx.fillText(`G: ${g.toFixed(2)}g`, 30, 130);
+        this.ctx.fillText(`M: ${mach}`, 30, 80); // Mach Number
+        this.ctx.fillText(`\u03b1: ${aoa}`, 30, 100); // Alpha / AOA
+        this.ctx.fillText(`g: ${g.toFixed(2)}g`, 30, 120); // G-pull
         
         this.ctx.font = "18px Ariel";
 

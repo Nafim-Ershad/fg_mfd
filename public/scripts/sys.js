@@ -27,6 +27,18 @@ class GenerateSysPage{
 
     drawEngineRPM(engineData){
 
+        // Heading for engine portion
+        this.ctx.font = "22px Ariel";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "top";
+        this.ctx.fillStyle = "#FFFFFF";
+
+        this.ctx.fillText("ENGINE PARAMETERS", this.centerX, 10);
+
+        // Resetting the font position
+        this.ctx.font = "12px Ariel";
+        this.ctx.textBaseline = "middle";
+
         // n1 and n2 can go beyond 100;
         const n1 = convertFromPercentage(engineData.n1);
         const n2 = convertFromPercentage(engineData.n2);
@@ -216,24 +228,40 @@ class GenerateSysPage{
     }
 
     drawOilPressure(oilPressure){
+        // Heading for oil portion
+        this.ctx.font = "16px Ariel";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "top";
+        this.ctx.fillStyle = "#FFFFFF";
+
+        this.ctx.fillText("OIL PARAMETERS", 375, 405);
+
         this.ctx.strokeStyle = COLORS.HUD;
+
+        // Resetting the font position
+        this.ctx.font = "12px Ariel";
+        this.ctx.textBaseline = "middle";
+
+        // Predefine center for the dial
+        const arcX = 375;
+        const arcY = 500;
 
         // Draw the arc
         this.ctx.beginPath();
-        this.ctx.arc(375, 480, 70, toRadian(135), toRadian(45));
+        this.ctx.arc(arcX, arcY, 70, toRadian(135), toRadian(45));
 
         this.ctx.stroke();
 
         // Draw the pointer
         const maxPSI = 90;
 
-        const xPos = 375 + (70 * Math.cos(((oilPressure/maxPSI) * toRadian(270)) + toRadian(135)));
-        const yPos = 480 + (70 * Math.sin(((oilPressure/maxPSI) * toRadian(270)) + toRadian(135)));
+        const xPos = arcX + (70 * Math.cos(((oilPressure/maxPSI) * toRadian(270)) + toRadian(135)));
+        const yPos = arcY + (70 * Math.sin(((oilPressure/maxPSI) * toRadian(270)) + toRadian(135)));
         
         this.ctx.strokeStyle = "red";
 
         this.ctx.beginPath();
-        this.ctx.moveTo(375, 480);
+        this.ctx.moveTo(arcX, arcY);
         this.ctx.lineTo(xPos, yPos);
         this.ctx.closePath();
 
@@ -247,14 +275,14 @@ class GenerateSysPage{
 
         for(let i=0; i <= maxPSI; i+=10){
             if(angle % 15 === 0){
-                const x1 = 375 + (70 * Math.cos(toRadian(angle)));
-                const y1 = 480 + (70 * Math.sin(toRadian(angle)));
-                const x2 = 375 + (60 * Math.cos(toRadian(angle)));
-                const y2 = 480 + (60 * Math.sin(toRadian(angle)));
+                const x1 = arcX + (70 * Math.cos(toRadian(angle)));
+                const y1 = arcY + (70 * Math.sin(toRadian(angle)));
+                const x2 = arcX + (60 * Math.cos(toRadian(angle)));
+                const y2 = arcY + (60 * Math.sin(toRadian(angle)));
 
                 // For the marking texts
-                const x3 = 375 + (50 * Math.cos(toRadian(angle)));
-                const y3 = 480 + (50 * Math.sin(toRadian(angle)));
+                const x3 = arcX + (50 * Math.cos(toRadian(angle)));
+                const y3 = arcY + (50 * Math.sin(toRadian(angle)));
 
                 this.ctx.beginPath();
                 this.ctx.moveTo(x1, y1);
@@ -276,6 +304,18 @@ class GenerateSysPage{
 
     drawFuelPortion(data){
         const { ff, bf, inf, lf, rf } = {...data};
+        
+        // Heading for engine portion
+        this.ctx.font = "16px Ariel";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "top";
+        this.ctx.fillStyle = "#FFFFFF";
+
+        this.ctx.fillText("FUEL PARAMETERS", 125, 405);
+
+        // Resetting the font position
+        this.ctx.font = "12px Ariel";
+        this.ctx.textBaseline = "middle";
 
         // Draw the vertical scale for Fuel Flow (ff)
         // The limit is from 0 - 500kg/min
@@ -285,7 +325,7 @@ class GenerateSysPage{
 
         // Draw the box
         this.ctx.beginPath();
-        this.ctx.strokeRect(25, 450, 50, 250);
+        this.ctx.strokeRect(10, 470, 50, 250);
         this.ctx.closePath();
 
         this.ctx.stroke();
@@ -294,12 +334,12 @@ class GenerateSysPage{
         let value = 0;
         for(let i=0; i<=250; i+=50)
         {   
-            const yPos = 700 - i;
+            const yPos = 720 - i;
 
             // draw marks
             this.ctx.beginPath();
-            this.ctx.moveTo(25, yPos);
-            this.ctx.lineTo(75, yPos);
+            this.ctx.moveTo(10, yPos);
+            this.ctx.lineTo(60, yPos);
             this.ctx.closePath();
 
             this.ctx.stroke();
@@ -307,7 +347,7 @@ class GenerateSysPage{
             // Text
             this.ctx.textAlign = "end";
             this.ctx.font = "16px Ariel";
-            this.ctx.fillText(value, 70, yPos - 5);
+            this.ctx.fillText(`${value}`, 55, yPos - 7);
 
             value += 100; // Increasing the value by 100 everytime
         }
@@ -315,15 +355,28 @@ class GenerateSysPage{
         // Draw an arrow
         this.ctx.fillStyle = "red";
 
-        const yPos = 700 - (ff / 2);
-
+        const yPos = 720 - (ff / 2);
+        const xPos = 60;
+        
         this.ctx.beginPath();
-        this.ctx.moveTo(75, yPos);
-        this.ctx.lineTo(75 + 15, yPos - 10);
-        this.ctx.lineTo(75 + 15, yPos + 10);
+        this.ctx.moveTo(xPos, yPos);
+        this.ctx.lineTo(xPos + 15, yPos - 10);
+        this.ctx.lineTo(xPos + 15, yPos + 10);
         this.ctx.closePath();
 
         this.ctx.fill();
+
+        this.ctx.save();
+        this.ctx.translate(xPos + 25, yPos);
+        this.ctx.rotate(toRadian(90));
+
+        this.ctx.fillStyle = "#FFFFFF";
+        this.ctx.font = "20px Ariel";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText(`${ff}`, 0, 0);
+        
+        this.ctx.restore();
+
     }
 
     renderText(data){
@@ -364,15 +417,54 @@ class GenerateSysPage{
         // Oil Pressure
         this.ctx.textAlign = "center";
 
-        this.ctx.fillText("Oil Pressure (PSI)", 375, 550);
+        this.ctx.fillText("Oil Pressure (PSI)", 375, 570);
         
         this.ctx.beginPath();
-        this.ctx.strokeRect(340, 568, 70, 25);
+        this.ctx.strokeRect(340, 580, 70, 25);
         this.ctx.closePath();
 
-        this.ctx.fillText(data.op, 375, 580);
+        this.ctx.fillText(data.op, 375, 593);
 
         this.ctx.stroke();
+
+        // FUEL
+
+        // Fuel Flow Heading
+        this.ctx.textAlign = "start";
+        this.ctx.fillText("Fuel Flow(kg/min)", 10, 440);
+
+        // Bingo Fuel
+        this.ctx.fillText(`Bingo Fuel: ${data.bf}kg`, 100, 480);
+
+        // Remaining Fuel
+        this.ctx.textAlign = "start";
+        this.ctx.font = "16px Ariel";
+        this.ctx.fillStyle = COLORS.HUD;
+        this.ctx.fillText(`REMAINING FUEL`, 100, 520);
+            // Internal Fuel
+        this.ctx.font = "16px Ariel";
+        this.ctx.fillStyle = "#FFFFFF";
+        this.ctx.fillText(`Internal: ${data.inf}kg`, 100, 550);
+        this.ctx.fillText(`Left Wing: ${data.lf}kg`, 100, 575);
+        this.ctx.fillText(`Right Wing: ${data.rf}kg`, 100, 600);
+
+        // Electrical Parameters
+        // Heading for electric portion
+        this.ctx.font = "18px Ariel";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.fillStyle = "#FFFFFF";
+
+        this.ctx.fillText("BATTERY PARAMETERS", 375, 635);
+
+        this.ctx.font = "14px Ariel";
+
+        this.ctx.textAlign = "start";
+        this.ctx.fillText(`Amps: ${data.amp}amps`, 260, 670);
+        
+        this.ctx.textAlign = "end";
+        this.ctx.fillText(`Volts: ${data.volts}volts`, 500, 670);
+
     }
 
     drawSeperationLine(){
@@ -381,15 +473,15 @@ class GenerateSysPage{
 
         // Horizontal Line
         this.ctx.beginPath();
-        this.ctx.moveTo(0, 390);
-        this.ctx.lineTo(500, 390);
+        this.ctx.moveTo(0, 395);
+        this.ctx.lineTo(500, 395);
         this.ctx.closePath();
 
         this.ctx.stroke();
 
         // Vertical Line
         this.ctx.beginPath();
-        this.ctx.moveTo(this.centerX, 390);
+        this.ctx.moveTo(this.centerX, 395);
         this.ctx.lineTo(this.centerX, 734);
         this.ctx.closePath();
 
