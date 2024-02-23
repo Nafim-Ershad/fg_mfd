@@ -115,18 +115,18 @@ class GeneratePFD{
 
         // Draw the current altitude indicator
         this.ctx.fillStyle = "#000000"; // Black the indicator
-        this.ctx.fillRect(x+40, this.centerY - 15, 50, 30);
+        this.ctx.fillRect(x + 40, this.centerY - 15, 50, 30);
         this.ctx.strokeRect(x+40, this.centerY - 15, 50, 30);
         
         this.ctx.moveTo(x+40, this.centerY - 10);
         this.ctx.lineTo(x+30, this.centerY);
         this.ctx.lineTo(x+40, this.centerY + 10);
 
-        this.ctx.font = "18px Ariel";
+        this.ctx.font = "16px Ariel";
         this.ctx.fillStyle = "#FFFFFF";
-
+        this.ctx.textAlign = "center";
         // Text indicating the current altitude
-        this.ctx.fillText(currentAirSpeed, x + 45, this.centerY+5, 50);
+        this.ctx.fillText(currentAirSpeed, x + 40 + 25, this.centerY + 5);
 
         this.ctx.fill();
         this.ctx.stroke();
@@ -193,10 +193,11 @@ class GeneratePFD{
         this.ctx.lineTo(x + 40, this.centerY);
         this.ctx.lineTo(x + 30, this.centerY + 10);
         
-        this.ctx.font = "18px Ariel";
+        this.ctx.font = "16px Ariel";
         this.ctx.fillStyle = "#FFFFFF";
+        this.ctx.textAlign = "center";
         // Text indicating the current airspeed
-        this.ctx.fillText(currentAltitude, x - 10, this.centerY+5, 50);
+        this.ctx.fillText(currentAltitude, x - 20 + 25, this.centerY+5, 50);
         
         this.ctx.fill();
         this.ctx.stroke();
@@ -388,11 +389,11 @@ class GeneratePFD{
         this.ctx.closePath();
 
         
-        this.drawRotateAngle(roll);
+        this.drawBankAngle(roll);
 
    }
 
-    drawRotateAngle(rollAngle){
+    drawBankAngle(rollAngle){
 
         const roll = toRadian(rollAngle);
         
@@ -592,7 +593,7 @@ class GeneratePFD{
                 this.ctx.fillStyle = COLORS.CANDYAPPLERED;
                 break;
             default:
-                this.ctx.fillStyle = COLORS.primary;
+                this.ctx.fillStyle = COLORS.YELLOWGREEN;
                 break;
         }
 

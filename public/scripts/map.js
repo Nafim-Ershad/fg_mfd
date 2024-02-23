@@ -122,8 +122,8 @@ class GenerateMap
 
     drawZoomArcs(zoom){
 
-        this.ctx.strokeStyle = COLORS.secondary;
-        this.ctx.fillStyle = COLORS.secondary;
+        this.ctx.strokeStyle = COLORS.YELLOW;
+        this.ctx.fillStyle = COLORS.YELLOW;
         this.ctx.font = "16px Ariel";
         this.ctx.textAlign = "start";
 
@@ -134,7 +134,7 @@ class GenerateMap
 
         // make lines dotted
         this.ctx.setLineDash([7, 2]);
-        this.ctx.strokeStyle = COLORS.primary;
+        this.ctx.strokeStyle = COLORS.YELLOWGREEN;
 
         // Draw semi-circles
         this.ctx.beginPath();
@@ -290,7 +290,7 @@ class GenerateMap
         this.ctx.strokeStyle = "#FFFFFF";
         this.ctx.lineWidth = 3;
 
-        this.ctx.fillStyle = COLORS.secondary;
+        this.ctx.fillStyle = COLORS.YELLOW;
         this.ctx.font = "14px Ariel";
         this.ctx.textAlign = "start";
     
@@ -300,7 +300,7 @@ class GenerateMap
         this.ctx.fillText(`AS: ${params.currentAirSpeed} kts`, this.canvas.width - 100, 70);
 
 
-        this.ctx.fillStyle = COLORS.primary;
+        this.ctx.fillStyle = COLORS.YELLOWGREEN;
         this.ctx.font = "14px Ariel";
     
         // Show lat long
@@ -308,7 +308,7 @@ class GenerateMap
         this.ctx.fillText(`Lon: ${toLongitude(params.longitude)}`, 10, 45);
 
         // Current Waypoint Info
-        this.ctx.fillStyle = COLORS.secondary;
+        this.ctx.fillStyle = COLORS.YELLOW;
         this.ctx.font = "14px Ariel";
 
         this.ctx.fillText(`Waypoint ID: ${this.currentValues.currentWP[0]}`, 10, this.canvas.height - 80);

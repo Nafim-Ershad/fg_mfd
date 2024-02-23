@@ -1,6 +1,6 @@
 const COLORS = {
-    primary: "yellowgreen",
-    secondary: "yellow",
+    YELLOWGREEN: "yellowgreen",
+    YELLOW: "#FFFF00",
     AIRFORCEBLUE: "#00308F",
     AZURE: "#007FFF",
     ARSENALRED: "#EF0107",
@@ -9,7 +9,8 @@ const COLORS = {
     BRIGHTPINK: "#FF007F",
     DEEPPINK: "#FF1493",
     PERSIANPINK: "#F77FBE",
-    JUNGLEGREEN: "#29AB87"
+    JUNGLEGREEN: "#29AB87",
+    DARKCYAN: "#133141"
 };
 
 

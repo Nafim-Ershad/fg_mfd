@@ -1,6 +1,7 @@
 import GeneratePFD from "./pfd.js";
-import GenerateSys from "./sys.js";
 import GenerateMap from "./map.js";
+import GenerateSys from "./sys.js";
+import GenerateHUD from "./hud.js";
 
 const container = document.querySelector(".canvas_container");
 
@@ -40,7 +41,7 @@ const stateManager = {
                 createSystemPage(data);
                 break;
             case "hud":
-                createSystemPage(data);
+                createHUDPage(data);
                 break;
             default:
                 break;
@@ -204,6 +205,43 @@ function createSystemPage(fgData=[]){
         rf: Math.round(Number(fgData[28])),
     });
     sys.drawPage();
+}
+
+function createHUDPage(fgData=[]){
+    clearContainer();
+    resetButtonBox();
+
+    if(!fgData.length){
+        return;
+    }
+    
+    // Canvas Creation
+    const newCanvas = document.createElement('canvas');
+    newCanvas.setAttribute("id", "main_screen");
+    container.appendChild(newCanvas);
+    const canvas = document.querySelector("#main_screen");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+
+    const hud = new GenerateHUD(canvas, ctx, {
+        alt: Math.round(Number(fgData[0])),
+        rAlt: Math.round(Number(fgData[1])),
+        lat: Math.round(Number(fgData[2])),
+        lon: Math.round(Number(fgData[3])),
+        asi: Math.round(Number(fgData[4])),
+        mach: Math.round(Number(fgData[5])),
+        gs: Math.round(Number(fgData[6])),
+        vsi: Math.round(Number(fgData[7])),
+        g: Math.round(Number(fgData[8])),
+        pitch: Number(fgData[9]),
+        roll: Number(fgData[10]),
+        hdg: Number(fgData[11]),
+        alpha: Math.round(Number(fgData[12])),
+        temp: Math.round(Number(fgData[13])),
+    });
+    hud.drawPage();
 }
 
 function removeActive(){
