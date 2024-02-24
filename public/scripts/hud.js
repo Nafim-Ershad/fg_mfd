@@ -320,9 +320,9 @@ class GenerateHUD{
 
     drawPitchLadder({pitchAngle, rollAngle}){
         const roll = toRadian(rollAngle);
-        const pitch = pitchAngle;
+        const pitch = toDecimalPlaces(pitchAngle, 1);
 
-        const tapeH = 250;
+        const tapeH = 300;
         // Number of Markings are 5
 
         this.ctx.save();
@@ -336,9 +336,7 @@ class GenerateHUD{
             // taking a range of from -10 to +10 makes 21 points of degrees
 
             const yPos = (tapeH / 2) - i;
-            const value = toDecimalPlaces((pitch - 10) + (i / 10), 1);
-            
-            console.log(value, yPos);
+            const value = toDecimalPlaces((pitch - 10) + (i / 15), 1);
 
             if(value % 5 === 0){
 

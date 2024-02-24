@@ -431,7 +431,7 @@ class GenerateSysPage{
 
         // Fuel Flow Heading
         this.ctx.textAlign = "start";
-        this.ctx.fillText("Fuel Flow(kg/min)", 10, 440);
+        this.ctx.fillText("Fuel Flow (kg/min)", 10, 440);
 
         // Bingo Fuel
         this.ctx.fillText(`Bingo Fuel: ${data.bf}kg`, 100, 480);
@@ -460,10 +460,10 @@ class GenerateSysPage{
         this.ctx.font = "14px Ariel";
 
         this.ctx.textAlign = "start";
-        this.ctx.fillText(`Amps: ${data.amp}amps`, 260, 670);
+        this.ctx.fillText(`Amps: ${data.amp} A`, 260, 670);
         
         this.ctx.textAlign = "end";
-        this.ctx.fillText(`Volts: ${data.volts}volts`, 500, 670);
+        this.ctx.fillText(`Volts: ${data.volts} V`, 500, 670);
 
     }
 

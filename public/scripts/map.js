@@ -30,7 +30,13 @@ class GenerateMap
 
         this.drawHeadingRadial(this.currentValues.heading);
         
-        this.drawWayPoints(this.currentValues.latitude, this.currentValues.longitude, this.currentValues.waypoints, this.currentValues.heading);
+        this.drawWayPoints(
+            this.currentValues.latitude, 
+            this.currentValues.longitude, 
+            this.currentValues.waypoints, 
+            this.currentValues.heading,
+            this.currentValues.currentWP
+        );
 
         this.drawZoomArcs(this.zoom);
 
@@ -223,7 +229,7 @@ class GenerateMap
         this.ctx.restore();
     }
 
-    drawWayPoints(latitude, longitude, waypoints, heading){
+    drawWayPoints(latitude, longitude, waypoints, heading, currentWP){
         /* console.log(waypoints, latitude, longitude); */
 
         this.ctx.save(); // Save the context
@@ -240,18 +246,33 @@ class GenerateMap
         this.ctx.rotate(toRadian(-heading)); // Rotate the context
 
         // Set colors for the waypoints
-        this.ctx.fillStyle = COLORS.PERSIANPINK;
-        this.ctx.strokeStyle = COLORS.BRIGHTPINK;
         this.ctx.lineWidth = 3;
         
         var started = false; // A pointer to save the coordinate of the point in array
         var [fromX, fromY] = [];
+        var activeWP = false;
 
         // draw the waypoints
         waypoints.forEach(waypoint => {
             // Calculating the position of waypoints      
             const xPos = ((waypoint.lon - longitude) * 60 * this.zoom);
             const yPos = ((latitude - waypoint.lat) * 60 * this.zoom);
+
+            if(currentWP[0] === waypoint.id){
+                activeWP = true;
+            }
+            else{
+                activeWP = false;
+            }
+
+            if(activeWP){
+                this.ctx.fillStyle = "white";
+                this.ctx.strokeStyle = "white";
+            }
+            else{    
+                this.ctx.fillStyle = "grey";
+                this.ctx.strokeStyle = "grey";
+            }
 
             if(!started){
                 fromX = xPos;

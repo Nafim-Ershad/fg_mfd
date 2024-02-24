@@ -27,21 +27,21 @@ const initialState = {
 const stateManager = {
     state: {...initialState},
     getState(){
-        return {...this.state};
+        return this.state;
     },
-    render(data=this.state.data){
+    render(){
         switch(this.state.page){
             case "pfd":
-                createPFDCanvas(data);
+                createPFDCanvas(this.state.data);
                 break;
             case "map":
-                createMapCanvas(data);
+                createMapCanvas(this.state.data);
                 break;
             case "sys":
-                createSystemPage(data);
+                createSystemPage(this.state.data);
                 break;
             case "hud":
-                createHUDPage(data);
+                createHUDPage(this.state.data);
                 break;
             default:
                 break;
@@ -49,7 +49,14 @@ const stateManager = {
     },
     setState(newState){
         this.state = {...this.state, ...newState};
-        this.render(this.state.data);
+        // this.render(); 
+        
+        /* 
+            This used to cause some extra computation when zoom level 
+            was changed. Since it is already being rendered on the onmessage
+            function below
+        */
+                         
     }
 }
 
@@ -259,6 +266,7 @@ ws.onopen = () => {
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     stateManager.setState({data: data});
+    stateManager.render();
 }
 
 buttonsLeft.forEach((button, idx) => {
