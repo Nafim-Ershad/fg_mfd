@@ -27,6 +27,8 @@ class GenerateHUD{
                 pitchAngle: this.currentValues.pitch
             }
         );
+        this.drawUnderCarriage(this.currentValues.uc);
+        this.drawOtherParams(this.currentValues);
         // this.drawRadAltBox();
     }
 
@@ -43,19 +45,19 @@ class GenerateHUD{
         // Rifhr Wing
         this.ctx.beginPath();
         this.ctx.moveTo(this.centerX + radius, this.centerY);
-        this.ctx.lineTo(this.centerX + radius + 15, this.centerY);
+        this.ctx.lineTo(this.centerX + radius + 25, this.centerY);
         this.ctx.stroke();
 
         // Left Wing
         this.ctx.beginPath();
         this.ctx.moveTo(this.centerX - radius, this.centerY);
-        this.ctx.lineTo(this.centerX - radius - 15, this.centerY);
+        this.ctx.lineTo(this.centerX - radius - 25, this.centerY);
         this.ctx.stroke();
 
         // Tail Rudder
         this.ctx.beginPath();
         this.ctx.moveTo(this.centerX, this.centerY - radius);
-        this.ctx.lineTo(this.centerX, this.centerY - radius - 10);
+        this.ctx.lineTo(this.centerX, this.centerY - radius - 20);
         this.ctx.stroke();
     }
 
@@ -399,6 +401,62 @@ class GenerateHUD{
         }
 
         this.ctx.restore();
+    }
+
+    drawUnderCarriage(active=true){
+        if(active){
+            /* 
+                Draw the undercarriage on the aircraft if
+                flight gear shows tha undercarriage is down;
+            */ 
+            
+            // Draw the nose gear  
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.centerX, this.centerY + 15);
+            this.ctx.lineTo(this.centerX, this.centerY + 20);
+            this.ctx.closePath();
+
+            this.ctx.stroke();
+
+            // Draw both the main gears
+                // Left gear
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.centerX - 20, this.centerY);
+            this.ctx.lineTo(this.centerX - 20, this.centerY + 5);
+            this.ctx.closePath();
+
+            this.ctx.stroke();
+
+                // Right Gear
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.centerX + 20, this.centerY);
+            this.ctx.lineTo(this.centerX + 20, this.centerY + 5);
+            this.ctx.closePath();
+
+            this.ctx.stroke();
+        }
+    }
+
+    drawOtherParams(data){
+        const {mach, g, rAlt} = {...data};
+
+        // Draw the top left box
+        this.ctx.beginPath();
+        this.ctx.strokeRect(20, 150, 80, 50);
+        this.ctx.closePath();
+
+        this.ctx.textAlign = "start";
+        this.ctx.textBaseline = "top";
+
+        // Mach Number
+        this.ctx.fillText(`M: ${mach}`, 25, 155);
+
+        // Pilot-G
+        this.ctx.fillText(`g: ${g}`, 25, 175);
+
+        // Rad Alt
+        this.ctx.fillText(`R${rAlt.toString().padStart(5, '0')}`, 420, 527);
+
     }
 }
 

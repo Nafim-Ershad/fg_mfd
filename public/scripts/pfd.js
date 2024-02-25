@@ -15,8 +15,8 @@ class GeneratePFD{
         this.numberOfMarkings = 40;
         this.tapeWidth = 70;
         this.tapeHeight = 400;
-        this.halfHeight = this.tapeHeight / 2;
-        this.markerSpacing = this.tapeHeight/this.numberOfMarkings;
+        this.halfHeight = this.tapeHeight / 2; // -> 200
+        this.markerSpacing = this.tapeHeight/this.numberOfMarkings; // -> 10
         
         this.centerX = this.canvas.width / 2;
         this.centerY = this.canvas.height / 2;
@@ -154,7 +154,7 @@ class GeneratePFD{
 
         for(let i=0; i<this.numberOfMarkings; i++){
 
-            const yPos = this.tapeHeight - (i * this.markerSpacing) + y; // Calculate Y position 
+            const yPos = (this.tapeHeight + y) - (i * this.markerSpacing); // Calculate Y position 
             const value = Math.round(((currentAltitude - this.halfHeight) / this.markerSpacing) + i);
 
             // Draw the marker line
@@ -406,9 +406,8 @@ class GeneratePFD{
         for(let i = 0; i <= 18; i++){
 
             const theta = (i/18) * Math.PI;
-
             switch(i){
-                case 0:
+                case 0: // Most right indicator --> 90 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (120 * Math.cos(theta)), this.centerY);
                     this.ctx.lineTo(this.centerX + (140 * Math.cos(theta)), this.centerY);
@@ -417,7 +416,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
                 
-                case 3:
+                case 3: // --> Right side, 60 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (145 * Math.cos(theta)), this.centerY - (130 * Math.sin(theta)));
                     this.ctx.lineTo(this.centerX + (155 * Math.cos(theta)), this.centerY - (140 * Math.sin(theta)));
@@ -429,7 +428,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
 
-                case 6:
+                case 6: // right indicator --> 30 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (165 * Math.cos(theta)), this.centerY - (155 * Math.sin(theta)));
                     this.ctx.lineTo(this.centerX + (175 * Math.cos(theta)), this.centerY - (165 * Math.sin(theta)));
@@ -441,7 +440,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
 
-                case 9: // The verticle line at the top
+                case 9: // The verticle line at the top  --> 0 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (130 * Math.cos(theta)), this.centerY - (150 * Math.sin(theta)));
                     this.ctx.lineTo(this.centerX + (140 * Math.cos(theta)), this.centerY - (160 * Math.sin(theta)));
@@ -453,7 +452,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
                 
-                case 12:
+                case 12:    // left indicator --> 30 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (165 * Math.cos(theta)), this.centerY - (155 * Math.sin(theta)));
                     this.ctx.lineTo(this.centerX + (175 * Math.cos(theta)), this.centerY - (165 * Math.sin(theta)));
@@ -465,7 +464,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
 
-                case 15:
+                case 15:    // left indicator --> 60 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (145 * Math.cos(theta)), this.centerY - (130 * Math.sin(theta)));
                     this.ctx.lineTo(this.centerX + (155 * Math.cos(theta)), this.centerY - (140 * Math.sin(theta)));
@@ -477,7 +476,7 @@ class GeneratePFD{
                     this.ctx.stroke();
                     break;
 
-                case 18: 
+                case 18: // left indicator --> 90 degree
                     this.ctx.beginPath();
                     this.ctx.moveTo(this.centerX + (120 * Math.cos(theta)), this.centerY);
                     this.ctx.lineTo(this.centerX + (140 * Math.cos(theta)), this.centerY);
@@ -488,6 +487,7 @@ class GeneratePFD{
                 
                 default:
                     break;
+            
             }
         }
 
@@ -496,16 +496,42 @@ class GeneratePFD{
         this.ctx.save();
 
         this.ctx.translate(this.centerX, this.centerY);
-        if(roll )
-        this.ctx.rotate(roll);
+        if(roll <= 1.571 && roll >= -1.571){
+            this.ctx.rotate(roll);
 
-        this.ctx.beginPath();
-        this.ctx.moveTo(0, -130);
-        this.ctx.lineTo(-10, -110);
-        this.ctx.lineTo(10, -110);
-        this.ctx.closePath();
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, -130);
+            this.ctx.lineTo(-10, -110);
+            this.ctx.lineTo(10, -110);
+            this.ctx.closePath();
 
-        this.ctx.fill();
+            this.ctx.fill();
+        }
+        else{
+            if(roll > 1.571){
+                this.ctx.rotate(1.5707);
+
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, -130);
+                this.ctx.lineTo(-10, -110);
+                this.ctx.lineTo(10, -110);
+                this.ctx.closePath();
+
+                this.ctx.fill();
+            }
+            else if( roll < -1.5707){
+                this.ctx.rotate(-1.5707);
+
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, -130);
+                this.ctx.lineTo(-10, -110);
+                this.ctx.lineTo(10, -110);
+                this.ctx.closePath();
+
+                this.ctx.fill();  
+            }
+        }
+
 
         this.ctx.restore();
 

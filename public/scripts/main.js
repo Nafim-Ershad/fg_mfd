@@ -16,11 +16,11 @@ const initialState = {
     data: [] 
     // [altimeter, radioAltimeter, latitude, longitude, airspeed, mach, groundspeed, verticalSpeed, pilot-g, pitch, roll, heading, alpha, temperature] [0-13]
     // [status, n1, n2, rpm, fuel-flow, oil-pressure, egt, aft burner] [14-21]
-    // [bingo-fuel] [22]
-    // [amp, charge, volts, intF, leftF, rightF] [23-28]
-    // [id, currDist, bearing, tBearing, dAlongRoute] [29-33]
-    // [id, nextDist, bearing, tBearing, dAlongRoute] [34-38]
-    // waypoint object [39]
+    // [bingo-fuel, gear] [22 - 23]
+    // [amp, charge, volts, intF, leftF, rightF] [24-29]
+    // [id, currDist, bearing, tBearing, dAlongRoute] [30-34]
+    // [id, nextDist, bearing, tBearing, dAlongRoute] [35-39]
+    // waypoint object [40]
 }
 
 
@@ -102,7 +102,7 @@ function createPFDCanvas(fgData=[]){
     canvas.height = container.clientHeight;
 
     const pfd = new GeneratePFD(canvas, ctx, {
-        currentAltitude: Math.ceil(Number(fgData[0])), 
+        currentAltitude: Math.round(Number(fgData[0])), 
         currentRadioAltitude: Math.round(Number(fgData[1])), 
         latitude: Number(fgData[2]), 
         longitude: Number(fgData[3]),
@@ -168,9 +168,9 @@ function createMapCanvas(fgData=[]){
         currentAirSpeed: Number(fgData[4]),
         currentGroundSpeed : Number(fgData[6]),
         heading: Number(fgData[11]),
-        currentWP: fgData.slice(29, 34),
-        nextWP: fgData.slice(34, 39),
-        waypoints: fgData[39]
+        currentWP: fgData.slice(30, 35),
+        nextWP: fgData.slice(35, 40),
+        waypoints: fgData[40]
     }, stateManager.getState().zoomLevel);
 
     map.drawMap();
@@ -204,12 +204,12 @@ function createSystemPage(fgData=[]){
         egt: Math.round(Number(fgData[20])),
         ab: Math.round(Number(fgData[21])),
         bf: Math.round(Number(fgData[22])),
-        amp: Math.round(Number(fgData[23])),
-        chg: Math.round(Number(fgData[24])),
-        volts: Math.round(Number(fgData[25])),
-        inf: Math.round(Number(fgData[26])),
-        lf: Math.round(Number(fgData[27])),
-        rf: Math.round(Number(fgData[28])),
+        amp: Math.round(Number(fgData[24])),
+        chg: Math.round(Number(fgData[25])),
+        volts: Math.round(Number(fgData[26])),
+        inf: Math.round(Number(fgData[27])),
+        lf: Math.round(Number(fgData[28])),
+        rf: Math.round(Number(fgData[29])),
     });
     sys.drawPage();
 }
@@ -241,12 +241,13 @@ function createHUDPage(fgData=[]){
         mach: Math.round(Number(fgData[5])),
         gs: Math.round(Number(fgData[6])),
         vsi: Math.round(Number(fgData[7])),
-        g: Math.round(Number(fgData[8])),
+        g: Number(fgData[8]).toFixed(2),
         pitch: Number(fgData[9]),
         roll: Number(fgData[10]),
         hdg: Number(fgData[11]),
         alpha: Math.round(Number(fgData[12])),
         temp: Math.round(Number(fgData[13])),
+        uc: Math.round(Number(fgData[23]))
     });
     hud.drawPage();
 }
