@@ -5,7 +5,7 @@ const dgram = require("dgram");
 const fs = require("fs");
 
 const {xml2json} = require('xml-js');
-const WebSocket = require('ws');
+const WebSocket = require('ws'); // TCP connection 
 
 // For auto open of websites
 const {exec} = require("child_process");
@@ -14,11 +14,18 @@ const {exec} = require("child_process");
 require("dotenv").config();
 
 const FILEPATH = process.env.FILEPATH || "C://Users//User//AppData//Roaming//flightgear.org//Export//"
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3300;
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
+
 const server = dgram.createSocket("udp4"); // UDP server setup
-const wss = new WebSocket.Server({port: 6502}); //  WebSocket Server
+const wss = new WebSocket.Server({port: 6502}); //  WebSocket Server --> Follows TCP
 
 // Read File
 function readFile(){
@@ -28,6 +35,7 @@ function readFile(){
 
     return JSON.parse(jsonData);
 }
+
 // Websocket Function
 function broadcastToClients(message){
     wss.clients.forEach(function(client) {
@@ -90,11 +98,6 @@ wss.on("connection", function(ws){
 });
 
 */
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
 
 app.get("/", function(req, res){
     res.sendFile('index.html');
