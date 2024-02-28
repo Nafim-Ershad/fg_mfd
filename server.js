@@ -78,7 +78,6 @@ server.on("message", function(message, remote){
     });
 
     data.push(dataToApeend);
-    console.log(data);
     broadcastToClients(data);
 });
 

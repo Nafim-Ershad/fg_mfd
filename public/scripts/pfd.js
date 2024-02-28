@@ -641,7 +641,7 @@ class GeneratePFD{
 
         this.ctx.fillText(`M: ${mach}`, 30, 80); // Mach Number
         this.ctx.fillText(`\u03b1: ${aoa}`, 30, 100); // Alpha / AOA
-        this.ctx.fillText(`g: ${g.toFixed(2)}g`, 30, 120); // G-pull
+        this.ctx.fillText(`g: ${g.toFixed(2)}`, 30, 120); // G-pull
         
         this.ctx.font = "18px Ariel";
 
