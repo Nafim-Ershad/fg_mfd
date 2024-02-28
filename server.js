@@ -1,9 +1,11 @@
-const express = require("express");
-const cors = require("cors");
+// Built-in Libraries
 const path = require("path");
 const dgram = require("dgram");
 const fs = require("fs");
 
+// External Libraries
+const express = require("express");
+const cors = require("cors");
 const {xml2json} = require('xml-js');
 const WebSocket = require('ws'); // TCP connection 
 
@@ -60,7 +62,7 @@ server.on("listening", function(){
 
 server.on("message", function(message, remote){
     // Process the incoming data (message) from FlightGear here
-    // const data = message.toString().split(",").map(parseFloat);
+
     const data = message.toString().split(",");
     
     const json = readFile();
@@ -75,10 +77,8 @@ server.on("message", function(message, remote){
         }
     });
 
-    // console.log(dataToApeend);
     data.push(dataToApeend);
-    // console.log(json.elements[0].elements[6].elements[0].elements[5].elements[0].text);
-    // console.log(json.elements[0].elements[6].elements);
+    console.log(data);
     broadcastToClients(data);
 });
 
