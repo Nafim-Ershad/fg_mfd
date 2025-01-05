@@ -15,8 +15,9 @@ const {exec} = require("child_process");
 
 require("dotenv").config();
 
-const FILEPATH = process.env.FILEPATH || "C://Users//User//AppData//Roaming//flightgear.org//Export//"
+const WAYPOINTFILEPATH = process.env.FILEPATH || "C://Users//User//AppData//Roaming//flightgear.org//Export//"
 const PORT = process.env.PORT || 3300;
+const url = `http://localhost:${PORT}`;
 
 const app = express();
 
@@ -29,16 +30,19 @@ app.use(cors());
 const server = dgram.createSocket("udp4"); // UDP server setup
 const wss = new WebSocket.Server({port: 6502}); //  WebSocket Server --> Follows TCP
 
+let appIsOpen = false // To know whether the app is open or not
+
 // Read File
 function readFile(){
-    var xml = fs.readFileSync(path.join(FILEPATH, "waypoints.xml"), {encoding: 'utf-8'});
+    var xml = fs.readFileSync(path.join(WAYPOINTFILEPATH, "waypoints.xml"), {encoding: 'utf-8'});
 
     const jsonData = xml2json(xml);
 
     return JSON.parse(jsonData);
 }
 
-// Websocket Function
+// ******************** Websocket Function ***********************
+// Broadcast the message to the clients
 function broadcastToClients(message){
     wss.clients.forEach(function(client) {
         if(client.readyState === WebSocket.OPEN){
@@ -46,14 +50,22 @@ function broadcastToClients(message){
         }
     })
 }
-
+// Connection to the websocket of FRONTEND
 wss.on("connection", function(ws){
     ws.on("error", function(err){
         console.error("Websocket Error:", err);
     });
+    // Check whether the app is open or closed
+    ws.on('message', function(message){
+        // console.log("Message from Client:", message.toString());
+        if(message.toString() === "appIsOpen"){
+            appIsOpen = true;
+        }
+    })
 });
 
-// UDP Connection
+// ****************** UDP Connection ******************
+// This portion is the node server connecting with the FlightGear
 server.on("listening", function(){
     const address = server.address;
     
@@ -62,10 +74,9 @@ server.on("listening", function(){
 
 server.on("message", function(message, remote){
     // Process the incoming data (message) from FlightGear here
-
     const data = message.toString().split(",");
     
-    const json = readFile();
+    const json = readFile(); // Way Point reading
     const dataToApeend = json.elements[0].elements[6].elements.map(element => {
         
             if(element){
@@ -104,7 +115,21 @@ app.get("/", function(req, res){
 
 app.listen(PORT, function(){
     // console.log(`Listening to: http://localhost:${PORT}`);
-    const url = `http://localhost:${PORT}`;
+    console.log(appIsOpen);
+    if(appIsOpen){
+        console.log(`Listening to: ${url}`);
+        console.log(`App already open...`);
+    }
+
+    else{
+        console.log(`Listening to: ${url}`);
+        console.log(`Opening the app...`);
+        openApp();
+    }
+});
+
+// Opens a new tab with the app
+function openApp(){
     const start = process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open";
     exec(`${start} ${url}`);
-});
+}

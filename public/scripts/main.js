@@ -262,6 +262,7 @@ const ws = new WebSocket("ws://localhost:6502"); // Connect to the backend socke
 
 ws.onopen = () => {
     console.log("WebSocket connection established");
+    ws.send('appIsOpen'); 
 }
 
 ws.onmessage = (event) => {
@@ -269,6 +270,11 @@ ws.onmessage = (event) => {
     stateManager.setState({data: data});
     stateManager.render();
 }
+
+socket.onclose = () => { 
+    console.log('WebSocket connection closed.'); 
+    location.reload(); // Reload the page when the connection is closed 
+};
 
 buttonsLeft.forEach((button, idx) => {
     button.addEventListener("click", event => {
@@ -293,3 +299,9 @@ buttonsLeft.forEach((button, idx) => {
         }
     });
 });
+
+
+//  When the tab closes, send a message to the server
+window.onbeforeunload = () => { 
+    ws.send('appIsClosed'); 
+};
