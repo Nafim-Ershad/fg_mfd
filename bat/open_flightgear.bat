@@ -1,0 +1,1 @@
+G: && cd FlightGear 2020.3\bin && fgfs.exe --generic=socket,out,10,localhost,5500,udp,my_out --aircraft=mirage2000

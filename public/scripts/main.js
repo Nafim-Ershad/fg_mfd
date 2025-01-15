@@ -3,15 +3,26 @@ import GenerateMap from "./map.js";
 import GenerateSys from "./sys.js";
 import GenerateHUD from "./hud.js";
 
+const ws = new WebSocket("ws://localhost:6502"); // Connect to the backend socket port
+
 const container = document.querySelector(".canvas_container");
 
 const buttonsLeft = [...document.querySelectorAll(".button_containers.left .btn-box button")];
 const buttonsRight = [...document.querySelectorAll(".button_containers.right .btn-box button")];
 const btnBox = [...document.querySelectorAll(".button_containers .btn-box")];
 
+const FGPathContainer = document.querySelector(".fg_path-container");
+const FGPath = document.querySelector(".fg_path-container form input");
+const FGOpen = document.querySelector(".fg_path-container form button");
+
+function showPathContainer(show = true){
+    if(show) FGPathContainer.classList.add("active");
+    else FGPathContainer.classList.remove("active");
+}
 
 const initialState = {
     page: "pfd",
+    flightGearOpen: false,
     zoomLevel: 1,
     data: [] 
     // [altimeter, radioAltimeter, latitude, longitude, airspeed, mach, groundspeed, verticalSpeed, pilot-g, pitch, roll, heading, alpha, temperature] [0-13]
@@ -22,7 +33,6 @@ const initialState = {
     // [id, nextDist, bearing, tBearing, dAlongRoute] [35-39]
     // waypoint object [40]
 }
-
 
 const stateManager = {
     state: {...initialState},
@@ -46,6 +56,13 @@ const stateManager = {
             default:
                 break;
         }
+
+        if(this.state.flightGearOpen){
+            showPathContainer(false);
+        }
+        else{
+            showPathContainer(true);
+        }
     },
     setState(newState){
         this.state = {...this.state, ...newState};
@@ -59,6 +76,18 @@ const stateManager = {
                          
     }
 }
+
+FGOpen.addEventListener("click", function(e){
+    e.preventDefault();
+
+    if(FGPath.value)
+    { // Send the path to the server
+        ws.send(JSON.stringify({path: FGPath.value}));
+        stateManager.setState({flightGearOpen: true});
+        return;
+    }
+    alert("Please enter the path to the FlightGear executable");
+});
 
 
 function log(value="No Input"){
@@ -258,22 +287,29 @@ function removeActive(){
     });
 }
 
-const ws = new WebSocket("ws://localhost:6502"); // Connect to the backend socket port
 
 ws.onopen = () => {
     console.log("WebSocket connection established");
-    ws.send('appIsOpen'); 
 }
 
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
+
     stateManager.setState({data: data});
-    stateManager.render();
+
+    if(data){
+        stateManager.setState({flightGearOpen: true});
+        stateManager.render();
+    }
+
+    else{
+        stateManager.setState({flightGearOpen: false});
+        alert("Open Flight Gear first");
+    }
 }
 
-socket.onclose = () => { 
+ws.onclose = () => { 
     console.log('WebSocket connection closed.'); 
-    location.reload(); // Reload the page when the connection is closed 
 };
 
 buttonsLeft.forEach((button, idx) => {

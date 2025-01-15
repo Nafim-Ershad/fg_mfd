@@ -15,8 +15,13 @@ const {exec} = require("child_process");
 
 require("dotenv").config();
 
-const WAYPOINTFILEPATH = process.env.FILEPATH || "C://Users//User//AppData//Roaming//flightgear.org//Export//"
-const PORT = process.env.PORT || 3300;
+const WAYPOINTFILEPATH = process.env.FILEPATH || "C://Users//inann//AppData//Roaming//flightgear.org//Export//"
+const { 
+    WS_PORT, 
+    UDP_PORT, 
+    PORT 
+} = process.env || { WS_PORT: 6502, UDP_PORT: 5500, PORT: 3300 };
+
 const url = `http://localhost:${PORT}`;
 
 const app = express();
@@ -28,7 +33,7 @@ app.use(cors());
 
 
 const server = dgram.createSocket("udp4"); // UDP server setup
-const wss = new WebSocket.Server({port: 6502}); //  WebSocket Server --> Follows TCP
+const wss = new WebSocket.Server({port: WS_PORT}); //  WebSocket Server --> Follows TCP
 
 let appIsOpen = false // To know whether the app is open or not
 
@@ -52,29 +57,60 @@ function broadcastToClients(message){
 }
 // Connection to the websocket of FRONTEND
 wss.on("connection", function(ws){
-    ws.on("error", function(err){
-        console.error("Websocket Error:", err);
+    ws.on('message', message => { 
+        var filePath = JSON.parse(message.toString()).path; 
+
+        const drive = filePath.charAt(0);
+        const relativePath = filePath.substring(3);
+
+        console.log(`Received message: ${drive} ${relativePath}`);
+
+        const commands = [
+            "--generic=socket,out,10,localhost,5500,udp,my_out",
+            "--aircraft=mirage2000"
+        ]
+
+        const batchContent = `${drive}: && cd ${relativePath} && fgfs.exe ${commands.join(" ")}`;
+
+        // Define the path for the batch file 
+        const batchFilePath = path.join(__dirname, '/bat/open_flightgear.bat');
+
+        // Write the batch file 
+        fs.writeFile(batchFilePath, batchContent, err => { 
+            if (err) 
+            { 
+                console.error(`Error writing batch file: ${err}`); 
+                return; 
+            } 
+            console.log(`Batch file created at: ${batchFilePath}`); 
+
+            // Execute the batch file 
+            exec(`start ${batchFilePath}`, (err, stdout, stderr) => { 
+                if (err) { console.error(`Error executing batch file: ${err}`); 
+                    return; 
+                } 
+                console.log(`stdout: ${stdout}`); 
+                console.error(`stderr: ${stderr}`); 
+            }); 
+        });
     });
-    // Check whether the app is open or closed
-    ws.on('message', function(message){
-        // console.log("Message from Client:", message.toString());
-        if(message.toString() === "appIsOpen"){
-            appIsOpen = true;
-        }
-    })
 });
 
 // ****************** UDP Connection ******************
 // This portion is the node server connecting with the FlightGear
 server.on("listening", function(){
-    const address = server.address;
-    
-
+    const { address, port } = server.address();
+    console.log(`Server is listening at: ${address}:${port}`);
 });
 
 server.on("message", function(message, remote){
     // Process the incoming data (message) from FlightGear here
-    const data = message.toString().split(",");
+    const data = message.toString().split(",");    
+    if(!data){
+        console.log("No message received");
+        return;
+    }
+
     
     const json = readFile(); // Way Point reading
     const dataToApeend = json.elements[0].elements[6].elements.map(element => {
@@ -92,7 +128,7 @@ server.on("message", function(message, remote){
     broadcastToClients(data);
 });
 
-server.bind(5500);
+server.bind(UDP_PORT, "localhost");
 
 // ***** WebSocket *****
 // getting data from the frontend websocket....
@@ -115,17 +151,7 @@ app.get("/", function(req, res){
 
 app.listen(PORT, function(){
     // console.log(`Listening to: http://localhost:${PORT}`);
-    console.log(appIsOpen);
-    if(appIsOpen){
-        console.log(`Listening to: ${url}`);
-        console.log(`App already open...`);
-    }
-
-    else{
-        console.log(`Listening to: ${url}`);
-        console.log(`Opening the app...`);
-        openApp();
-    }
+    openApp();
 });
 
 // Opens a new tab with the app

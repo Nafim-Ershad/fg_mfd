@@ -1,0 +1,3 @@
+@echo off
+G: && cd "/FlightGear 2020.3/bin" && fgfs.exe --fg-root=../data --fg-scenery=../data/Scenery --aircraft=ufo --airport=KSFO --runway=28L
+
