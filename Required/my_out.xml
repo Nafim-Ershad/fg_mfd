@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <generic>
+  <output>
+   <line_separator></line_separator>
+   <var_separator>,</var_separator>
+
+	<chunk>
+		<name>altimeter</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/position/altitude-ft</node>
+	</chunk>
+
+	<chunk>
+		<name>rAltimeter</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/position/altitude-agl-ft</node>
+	</chunk>
+
+	<chunk>
+		<name>latitude</name>
+		<format>%0.8f</format>
+		<type>double</type>
+		<node>/position/latitude-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>longitude</name>
+		<format>%0.8f</format>
+		<type>double</type>
+		<node>/position/longitude-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>airspeed</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/velocities/airspeed-kt</node>
+	</chunk>
+
+	<chunk>
+		<name>mach</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/velocities/mach</node>
+	</chunk>
+
+	<chunk>
+		<name>ground speed</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/velocities/groundspeed-kt</node>
+	</chunk>
+
+	<chunk>
+		<name>vertical speed</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/velocities/vertical-speed-fps</node>
+	</chunk>
+
+	<chunk>
+		<name>pilot-g</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/accelerations/pilot-g</node>
+	</chunk>
+
+	<chunk>
+		<name>pitch</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/orientation/pitch-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>roll</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/orientation/roll-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>heading</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/orientation/heading-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>alpha</name>
+		<format>%d</format>
+		<type>int</type>
+		<node>/orientation/alpha-deg</node>
+	</chunk>
+
+	<chunk>
+		<name>temperature</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/environment/temperature-degc</node>
+	</chunk>
+
+   <!-- **************** Engine **************** -->
+
+	<chunk>
+		<name>running</name>
+		<format>%d</format>
+		<type>int</type>
+		<node>/engines/engine/running</node>
+	</chunk>   
+
+	<chunk>
+		<name>n1</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/engines/engine/n1</node>
+	</chunk>
+
+	<chunk>
+		<name>n2</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/engines/engine/n2</node>
+	</chunk>
+
+	<chunk>
+		<name>rpm</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/engines/engine/rpm</node>
+	</chunk>   
+
+	<chunk>
+		<name>fuel-flow</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/engines/engine/fuel-flow-kg-min</node>
+	</chunk>
+
+	<chunk>
+		<name>oil-pressure</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/engines/engine/oil-pressure-psi</node>
+	</chunk>
+
+	<!-- <chunk>
+		<name>oil-temp</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/engines/engine/oil-temperature-degf</node>
+	</chunk>    -->
+
+	<chunk>
+		<name>EGT</name>
+		<format>%0.4f</format>
+		<type>double</type>
+		<node>/engines/engine/egt-degC</node>
+	</chunk>
+
+	<chunk>
+		<name>afterburner</name>
+		<format>%0.1f</format>
+		<type>double</type>
+		<node>/engines/engine/afterburner</node>
+	</chunk>
+
+	<!-- **************** INSTRUMENTS **************** -->
+
+	<chunk>
+		<name>bingo fuel</name>
+		<format>%d</format>
+		<type>int</type>
+		<node>/instrumentation/consumables/bingo_fuel</node>
+	</chunk>
+
+	<chunk>
+		<name>Gear</name>
+		<format>%d</format>
+		<type>bool</type>
+		<node>/controls/gear/gear-down</node>
+	</chunk>
+
+	<!-- **************** SYSTEMS **************** -->
+	
+	<!-- Electrical -->
+	<chunk>
+		<name>battery amp</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/electrical/amps</node>
+	</chunk>
+
+	<chunk>
+		<name>battery charge</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/electrical/battery_charge_percent</node>
+	</chunk>
+	
+	<chunk>
+		<name>battery volts</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/electrical/volts</node>
+	</chunk>
+
+	<!-- Fuel -->
+	<chunk>
+		<name>internal rem fuel</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/fuel/internal-remaining-fuel</node>
+	</chunk>
+
+	<chunk>
+		<name>left rem fuel</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/fuel/left-remaining-fuel</node>
+	</chunk>
+
+	<chunk>
+		<name>right rem fuel</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/systems/fuel/right-remaining-fuel</node>
+	</chunk>
+
+	<!-- **************** CURRENT WAYPOINT **************** -->
+	
+	<chunk>
+		<name>id</name>
+		<format>%s</format>
+		<type>string</type>
+		<node>/autopilot/route-manager/wp/id</node>
+	</chunk>
+	
+	<chunk>
+		<name>distance</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp/dist</node>
+	</chunk>
+
+	<chunk>
+		<name>bearing</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp/bearing-deg</node>
+	</chunk>
+	
+	<chunk>
+		<name>tBearing</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp/true-bearing-deg</node>
+	</chunk>
+	
+	<chunk>
+		<name>dRoute</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp/distance-along-route-nm</node>
+	</chunk>
+
+	<!-- **************** NEXT WAYPOINT **************** -->
+	
+	<chunk>
+		<name>id</name>
+		<format>%s</format>
+		<type>string</type>
+		<node>/autopilot/route-manager/wp[1]/id</node>
+	</chunk>
+
+	<chunk>
+		<name>distance</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp[1]/dist</node>
+	</chunk>
+
+	<chunk>
+		<name>bearing</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp[1]/bearing-deg</node>
+	</chunk>
+	
+	<chunk>
+		<name>tBearing</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp[1]/true-bearing-deg</node>
+	</chunk>
+	
+	<chunk>
+		<name>dRoute</name>
+		<format>%0.2f</format>
+		<type>double</type>
+		<node>/autopilot/route-manager/wp[1]/distance-along-route-nm</node>
+	</chunk>
+
+  </output>
+
+ </generic>
+
+</PropertyList>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <version type="int">2</version>
+  <flight-rules type="string">V</flight-rules>
+  <flight-type type="string">X</flight-type>
+  <estimated-duration-minutes type="int">0</estimated-duration-minutes>
+  <departure>
+    <airport type="string">BIKF</airport>
+    <runway type="string">01</runway>
+  </departure>
+  <destination>
+    <airport type="string">BIPA</airport>
+  </destination>
+  <route>
+    <wp>
+      <type type="string">runway</type>
+      <departure type="bool">true</departure>
+      <ident type="string">01</ident>
+      <icao type="string">BIKF</icao>
+    </wp>
+    <wp n="1">
+      <type type="string">navaid</type>
+      <generated type="bool">true</generated>
+      <ident type="string">KEF</ident>
+      <lon type="double">-22.6145</lon>
+      <lat type="double">63.98680556</lat>
+    </wp>
+    <wp n="2">
+      <type type="string">navaid</type>
+      <airway type="string">G3</airway>
+      <network type="int">2</network>
+      <generated type="bool">true</generated>
+      <ident type="string">METIL</ident>
+      <lon type="double">-21.526111</lon>
+      <lat type="double">63.971944</lat>
+    </wp>
+    <wp n="3">
+      <type type="string">navaid</type>
+      <airway type="string">B1</airway>
+      <network type="int">2</network>
+      <generated type="bool">true</generated>
+      <ident type="string">EL</ident>
+      <lon type="double">-21.77072222</lon>
+      <lat type="double">64.08111111</lat>
+    </wp>
+    <wp n="4">
+      <type type="string">navaid</type>
+      <airway type="string">B1</airway>
+      <network type="int">2</network>
+      <generated type="bool">true</generated>
+      <ident type="string">RK</ident>
+      <lon type="double">-22.02883333</lon>
+      <lat type="double">64.15147222</lat>
+    </wp>
+    <wp n="5">
+      <type type="string">navaid</type>
+      <airway type="string">B3</airway>
+      <network type="int">2</network>
+      <generated type="bool">true</generated>
+      <ident type="string">SKOTT</ident>
+      <lon type="double">-22.870833</lon>
+      <lat type="double">64.785833</lat>
+    </wp>
+    <wp n="6">
+      <type type="string">navaid</type>
+      <airway type="string">B3</airway>
+      <network type="int">2</network>
+      <generated type="bool">true</generated>
+      <ident type="string">PA</ident>
+      <lon type="double">-23.95305556</lon>
+      <lat type="double">65.55583333</lat>
+    </wp>
+    <wp n="7">
+      <type type="string">navaid</type>
+      <approach type="bool">true</approach>
+      <ident type="string">BIPA</ident>
+      <lon type="double">-23.973772</lon>
+      <lat type="double">65.55522303</lat>
+    </wp>
+  </route>
+</PropertyList>
